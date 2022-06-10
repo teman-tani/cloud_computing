@@ -6,6 +6,7 @@ import numpy as np
 import os
 import pickle
 import pandas as pd
+from flask import jsonify
 
 app = Flask(__name__)
 
