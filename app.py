@@ -130,7 +130,7 @@ def result_model():
         		{
 	    		"hasil" : result,
             		"penyakit": name,
-	  		"rekomendasi" : rec
+	  		
 			}	
 			]	
 		}
