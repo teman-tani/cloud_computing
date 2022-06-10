@@ -124,10 +124,10 @@ def result_model():
         disease = name
         rec = recommend_pestisida(disease)
 
-       	return jsonify({'message' : 'berhasil'})
+       	# return jsonify({'message' : 'berhasil'})
        
         # return web
-        # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=name,recommend=rec )
+        return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=name,recommend=rec )
 
 if __name__ == '__main__':
     app.run(ssl_context='adhoc', host='0.0.0.0', port=8080, debug=True)
