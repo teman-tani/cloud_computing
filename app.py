@@ -112,22 +112,28 @@ def result_model():
 
         # ['LeafBlast', 'Healthy', 'BrownSpot', 'Hispa']
         if result == 0:
-            name = 'LeafBlast'
+            disease = 'LeafBlast'
         elif result == 1:
-            name = 'Healthy'
+            disease = 'Healthy'
         elif result == 2:
-            name = 'BrownSpot'
+            disease = 'BrownSpot'
         else:
-            name = 'Hispa' 
+            disease = 'Hispa' 
             
         # get pesticide recommend
-        disease = name
-        rec = recommend_pestisida(disease)
+        # disease = disease
+        rec = recommend_pestisida(disease = 'Brown Spot')
 
-       	# return jsonify({'message' : 'berhasil'})
+        # return json 
+        # response_json = {
+        #     disease : disease,
+        #     recommendations : rec
+        # }
+        # return jsonify(response_json)
+
        
         # return web
-        return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=name,recommend=rec )
+        return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec ) )
 
 if __name__ == '__main__':
     app.run(ssl_context='adhoc', host='0.0.0.0', port=8080, debug=True)
