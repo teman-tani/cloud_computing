@@ -116,7 +116,7 @@ def result_model():
             name = 'Hispa' 
             
         # get pesticide recommend
-        disease = disease
+        disease = name
         rec = recommend_pestisida(disease)
 
         # return json 
@@ -128,7 +128,7 @@ def result_model():
     		"data": [
         		{
 	    		"hasil" : result,
-            		"penyakit": disease,
+            		"penyakit": name,
 	  		"rekomendasi" : [
 				{
 					"link" : rec['product_link'],
@@ -142,9 +142,15 @@ def result_model():
 					"link" : rec['product_link'],
 					"image" : rec['image-src']
 				}]
+<<<<<<< HEAD
 			}
 			]
 		
+=======
+			}	
+			]	
+		}
+>>>>>>> a79c78942b7afe874f9bbf6d849e57ae27514d98
         }
         return jsonify(response_json)
 
