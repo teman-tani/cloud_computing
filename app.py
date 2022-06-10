@@ -123,7 +123,7 @@ def result_model():
         response_json = {
              #disease : disease,
              #recommendations : rec
-    		"success": true,
+    		"success": "true",
     		"message": "Data Asset yang dibuat didapatkan",
     		"data": [
         		{
