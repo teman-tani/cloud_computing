@@ -44,11 +44,11 @@ def recommend_pestisida_name(pesticide_name):
               'berat', 'image-src', 'product_link']].iloc[pesticide_indices]
 
     # response_json = {
-	# recommendation = rec
-    # }
+        #     recommendations : rec
+        # }
     # return jsonify(response_json)
 
-    # return render_template('resultRecommend.html', recommend = rec)
+    return render_template('resultRecommend.html', recommend = rec)
 
 def recommend_pestisida(disease):
     indices = pd.Series(df.index, index=df['nama'])
@@ -81,10 +81,6 @@ def recommend_pestisida(disease):
 
     # print(rec)
     return rec
-
-@app.route('/tes', methods=['POST'])
-def test():
-	return jsonify({'message' : True, 'hasil' : 0})
 
 @app.route('/resultmodel', methods=['POST'])
 def result_model():
