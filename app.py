@@ -124,21 +124,10 @@ def result_model():
         disease = name
         rec = recommend_pestisida(disease)
 
-        # return json 
-        response_json = {
-             #disease : disease,
-             #recommendations : rec
-    		"success": "true",
-    		"message": "Data Asset yang dibuat didapatkan",
-    		"data": [
-        		{
-	    		"hasil" : result,
-			}	
-			]	
-		}
-        
-        return response_json
-
+       	return jsonify({
+		'message' : True,
+		'hasil' : result
+	})
        
         # return web
         # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=name,recommend=rec )
