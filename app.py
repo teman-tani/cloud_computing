@@ -112,19 +112,23 @@ def result_model():
 
         # ['LeafBlast', 'Healthy', 'BrownSpot', 'Hispa']
         if result == 0:
+	    nilai = 0
             name = 'LeafBlast'
         elif result == 1:
+	    nilai = 1
             name = 'Healthy'
         elif result == 2:
+ 	    nilai = 2
             name = 'BrownSpot'
         else:
+	    nilai = 3
             name = 'Hispa' 
             
         # get pesticide recommend
         disease = name
         rec = recommend_pestisida(disease)
 
-       	return jsonify({'message': True, 'hasil' : result})
+       	return jsonify({'message': True, 'hasil' : nilai})
        
         # return web
         # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=name,recommend=rec )
