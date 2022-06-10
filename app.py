@@ -128,7 +128,7 @@ def result_model():
 
        
         # return web
-        return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
+        #return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
 
 if __name__ == '__main__':
     app.run(ssl_context='adhoc', host='0.0.0.0', port=8080, debug=True)
