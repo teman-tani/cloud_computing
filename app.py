@@ -133,7 +133,7 @@ def result_model():
 			]	
 		}
         
-        return jsonify(response_json)
+        return response_json
 
        
         # return web
