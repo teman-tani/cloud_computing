@@ -116,7 +116,7 @@ def result_model():
             name = 'Hispa' 
             
         # get pesticide recommend
-        disease = disease
+        disease = name
         rec = recommend_pestisida(disease)
 
         # return json 
@@ -129,7 +129,7 @@ def result_model():
     		"data": [
         		{
 	    		"hasil" : result,
-            		"penyakit": disease,
+            		"penyakit": name,
 	  		"rekomendasi" : [
 				{
 					"link" : rec['product_link'],
