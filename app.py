@@ -117,7 +117,7 @@ def result_model():
             
         # get pesticide recommend
         disease = disease
-        rec = recommend_pestisida(disease = disease)
+        rec = recommend_pestisida(disease)
 
         # return json 
         response_json = {
@@ -142,9 +142,9 @@ def result_model():
 				{
 					"link" : rec['product_link'],
 					"image" : rec['image-src']
-				},
-			]
+				}]
 			}	
+			]	
 		}
         }
         return jsonify(response_json)
