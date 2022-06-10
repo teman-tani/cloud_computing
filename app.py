@@ -126,7 +126,6 @@ def result_model():
                 'tempat' : rec.tempat.to_json()
             })
 
-       
         # return web
         #return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
 
