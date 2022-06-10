@@ -121,11 +121,10 @@ def result_model():
         rec = recommend_pestisida(disease = 'Brown Spot')
 
         # return json 
-        # response_json = {
-        #     disease : disease,
-        #     recommendations : rec
-        # }
-        # return jsonify(response_json)
+        return jsonify(penyakit = disease, recommendations = {
+                'nama' : rec.nama.to_json(),
+                'tempat' : rec.tempat.to_json()
+            })
 
        
         # return web
