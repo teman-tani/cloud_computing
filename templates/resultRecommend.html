@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+</head>
+<body>
+    {% for r in recommend.nama %}
+        <!-- {% for n in r.kegunaan %}
+            <p>{{n}}</p>
+        {% endfor %} -->
+        {{r}}
+        <br>
+        {% endfor %}
+        {% for r in recommend.product_link %}
+            <!-- {% for n in r.kegunaan %}
+                <p>{{n}}</p>
+            {% endfor %} -->
+            <a href={{r}}>{{r}}</a>
+            <br>
+        {% endfor %}
+</body>
+</html>
