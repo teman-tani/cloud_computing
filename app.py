@@ -84,7 +84,7 @@ def recommend_pestisida(disease):
 
 @app.route('/tes', methods=['POST'])
 def test():
-	return jsonify({'message': 'hello world'})
+	return jsonify({'message' : true, 'hasil' : 0})
 
 @app.route('/resultmodel', methods=['POST'])
 def result_model():
