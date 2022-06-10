@@ -129,19 +129,7 @@ def result_model():
         		{
 	    		"hasil" : result,
             		"penyakit": name,
-	  		"rekomendasi" : [
-				{
-					"link" : rec['product_link'],
-					"image" : rec['image-src']
-				},
-				{
-					"link" : rec['product_link'],
-					"image" : rec['image-src']
-				},
-				{
-					"link" : rec['product_link'],
-					"image" : rec['image-src']
-				}]
+	  		"rekomendasi" : rec
 			}	
 			]	
 		}
