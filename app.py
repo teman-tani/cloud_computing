@@ -129,8 +129,6 @@ def result_model():
     		"data": [
         		{
 	    		"hasil" : result,
-            		"penyakit": name,
-	  		
 			}	
 			]	
 		}
