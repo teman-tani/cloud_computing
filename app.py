@@ -1,4 +1,4 @@
-from flask import (Flask,  render_template, request, jsonify
+from flask import (Flask,  render_template, request,jsonify
                    )
 from keras.models import load_model
 import tensorflow as tf
@@ -16,10 +16,10 @@ app.config['UPLOAD_PATH'] = 'uploads'
 
 model = load_model('model_ml/my_model.h5')
 
-
 @app.route('/')
 def index():
     return render_template('sendImage.html')
+
 
 
 def cleaning_data(data):
@@ -32,7 +32,7 @@ def cleaning_data(data):
     # pesticede_image = data.image_src.to_json()
 
     clean_data = []
-    for i in range(len(data)):
+    for i in range(len(data)) :
         temporary_data = {}
         temporary_data['nama'] = pesticide_name[i]
         temporary_data['image_src'] = pesticide_image[i]
@@ -41,10 +41,8 @@ def cleaning_data(data):
         clean_data.append(temporary_data)
     return clean_data
 
-
 df = pickle.load(open("model_ml/recommend_data (1).pkl", "rb"))
 similarity = pickle.load(open("model_ml/similarity.pkl", "rb"))
-
 
 @app.route('/recommend/<pesticide_name>')
 def recommend_pestisida_name(pesticide_name):
@@ -66,7 +64,7 @@ def recommend_pestisida_name(pesticide_name):
 
     cleaning = cleaning_data(rec)
 
-    return jsonify(recommendations=cleaning)
+    return jsonify(recommendations = cleaning)
 
     # return render_template('resultRecommend.html', recommend = rec)
 
@@ -104,48 +102,47 @@ def recommend_pestisida(disease):
     # print(rec)
     return cleaning
 
-
 @app.route('/resultmodel', methods=['POST'])
 def result_model():
+        
+        images = request.files['img']
 
-    images = request.files['img']
+        # path file
+        path = os.path.join(app.config['UPLOAD_PATH'], images.filename)
 
-    # path file
-    path = os.path.join(app.config['UPLOAD_PATH'], images.filename)
+        # save file
+        if images.filename != '':
+            images.save(path)
 
-    # save file
-    if images.filename != '':
-        images.save(path)
+        img = tf.keras.preprocessing.image.load_img(
+            path, target_size=(224, 224))
+        x = tf.keras.preprocessing.image.img_to_array(img)
+        x = np.expand_dims(x, axis=0)
 
-    img = tf.keras.preprocessing.image.load_img(
-        path, target_size=(224, 224))
-    x = tf.keras.preprocessing.image.img_to_array(img)
-    x = np.expand_dims(x, axis=0)
+        img = np.vstack([x])
+        classes = model.predict(img, batch_size=10)
+        result = np.argmax(classes[0])
 
-    img = np.vstack([x])
-    classes = model.predict(img, batch_size=10)
-    result = np.argmax(classes[0])
+        # menghapus file
+        os.remove(os.path.join(
+            app.config['UPLOAD_PATH'], images.filename))
 
-    # menghapus file
-    os.remove(os.path.join(
-        app.config['UPLOAD_PATH'], images.filename))
+        # ['LeafBlast', 'Healthy', 'BrownSpot', 'Hispa']
+        if result == 0:
+            disease = 'Leaf Blast'
+        elif result == 1:
+            disease = 'Healthy'
+        elif result == 2:
+            disease = 'Brown Spot'
+        else:
+            disease = 'Hispa' 
+            
+        # get pesticide recommend
+        rec = recommend_pestisida(disease)
 
-    # ['LeafBlast', 'Healthy', 'BrownSpot', 'Hispa']
-    if result == 0:
-        disease = 'Leaf Blast'
-    elif result == 1:
-        disease = 'Healthy'
-    elif result == 2:
-        disease = 'Brown Spot'
-    else:
-        disease = 'Hispa'
+        return jsonify(penyakit = disease, recommendations = rec)
 
-    # get pesticide recommend
-    rec = recommend_pestisida(disease)
-
-    return jsonify(penyakit=disease, recommendations=rec)
-
-    # return web
-    # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
+        # return web
+        # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
 if __name__ == '__main__':
     app.run(ssl_context='adhoc', host='0.0.0.0', port=8080, debug=True)
