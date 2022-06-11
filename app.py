@@ -6,19 +6,12 @@ import numpy as np
 import os
 import pickle
 import pandas as pd
-from configmodule import ProductionConfig
-from werkzeug.utils import import_string
 
 app = Flask(__name__)
-
-app.config.from_object(ProductionConfig())
-cfg = import_string('configmodule.ProductionConfig')()
-app.config.from_object(cfg)
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 # app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'uploads'
-
 
 model = load_model('model_ml/my_model.h5')
 
