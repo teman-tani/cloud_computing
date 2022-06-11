@@ -15,15 +15,9 @@ app.config['UPLOAD_PATH'] = 'uploads'
 
 model = load_model('model_ml/my_model.h5')
 
-class ProductionConfig(Config):
-    """Uses production database server."""
-    DB_SERVER = '192.168.19.32'
-
 @app.route('/')
 def index():
     return render_template('sendImage.html')
-
-
 
 def cleaning_data(data):
 
