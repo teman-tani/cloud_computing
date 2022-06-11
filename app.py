@@ -6,15 +6,25 @@ import numpy as np
 import os
 import pickle
 import pandas as pd
+from configmodule import ProductionConfig
+from werkzeug.utils import import_string
 
 app = Flask(__name__)
 
+app.config.from_object(ProductionConfig())
+cfg = import_string('configmodule.ProductionConfig')()
+app.config.from_object(cfg)
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 # app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'uploads'
 
+
 model = load_model('model_ml/my_model.h5')
+
+class ProductionConfig(Config):
+    """Uses production database server."""
+    DB_SERVER = '192.168.19.32'
 
 @app.route('/')
 def index():
@@ -129,11 +139,11 @@ def result_model():
 
         # ['LeafBlast', 'Healthy', 'BrownSpot', 'Hispa']
         if result == 0:
-            disease = 'LeafBlast'
+            disease = 'Leaf Blast'
         elif result == 1:
             disease = 'Healthy'
         elif result == 2:
-            disease = 'BrownSpot'
+            disease = 'Brown Spot'
         else:
             disease = 'Hispa' 
             
