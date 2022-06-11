@@ -3,5 +3,3 @@ tensorflow
 pillow
 numpy
 pandas
-ProductionConfig
-import_string
