@@ -15,6 +15,7 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.config['UPLOAD_PATH'] = 'uploads'
 
 model = load_model('model_ml/my_model.h5')
+model_detect = load_model('model_ml/my_model_detect.h5')
 
 api_key = "154c991c-1c07-492b-907c-6d3945759fd1"
 
@@ -148,12 +149,12 @@ def result_model():
         x = np.expand_dims(x, axis=0)
 
         img = np.vstack([x])
-        classes = model.predict(img, batch_size=10)
+        classes = model_detect.predict(img, batch_size=10)
         result = np.argmax(classes[0])
 
         # menghapus file
-        os.remove(os.path.join(
-            app.config['UPLOAD_PATH'], images.filename))
+        # os.remove(os.path.join(
+        #    app.config['UPLOAD_PATH'], images.filename))
 
         # ['Tungro', 'Hispa', 'Healthy', 'LeafBlast','Blight , 'BrownSpot']
         if result == 0:
