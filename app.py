@@ -152,8 +152,8 @@ def result_model():
         result = np.argmax(classes[0])
 
         # menghapus file
-        # os.remove(os.path.join(
-        #    app.config['UPLOAD_PATH'], images.filename))
+        os.remove(os.path.join(
+            app.config['UPLOAD_PATH'], images.filename))
 
         # ['Tungro', 'Hispa', 'Healthy', 'LeafBlast','Blight , 'BrownSpot']
         if result == 0:
