@@ -153,7 +153,7 @@ def result_model():
 
         img = np.vstack([x])
         classes = model2.predict(img, batch_size=10)
-        result = np.argmax(classes[0])
+        result = np.argmax(classes)
 
         # menghapus file
         #os.remove(os.path.join(
