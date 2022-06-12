@@ -4,17 +4,36 @@ from keras.models import load_model
 import tensorflow as tf
 import numpy as np
 import os
+import logging
 import pickle
 import pandas as pd
 
 app = Flask(__name__)
-
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 # app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'uploads'
 
 model = load_model('model_ml/my_model.h5')
+
+
+def create_app(test_config=None):
+    # create and configure the app
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(SECRET_KEY='dev')
+
+    if test_config is None:
+        # load the instance config, if it exists, when not testing
+        app.config.from_pyfile('config.py', silent=True)
+    else:
+        # load the test config if passed in
+        app.config.from_mapping(test_config)
+
+    # ensure the instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
 
 
 @app.route('/')
@@ -152,6 +171,7 @@ def result_model():
     rec = recommend_pestisida(disease)
 
     return jsonify(penyakit=disease, recommendations=rec)
+
 
     # return web
     # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
