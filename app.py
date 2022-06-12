@@ -15,6 +15,7 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 app.config['UPLOAD_PATH'] = 'uploads'
 
 model = load_model('model_ml/my_model.h5')
+model2 = load_model('model_ml/my_model_detect.h5')
 
 api_key = "154c991c-1c07-492b-907c-6d3945759fd1"
 
