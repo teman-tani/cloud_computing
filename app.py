@@ -16,6 +16,7 @@ app.config['UPLOAD_PATH'] = 'uploads'
 
 model = load_model('model_ml/my_model.h5')
 
+api_key = "154c991c-1c07-492b-907c-6d3945759fd1"
 
 def create_app(test_config=None):
     # create and configure the app
@@ -130,50 +131,54 @@ def recommend_pestisida(disease):
 
 @app.route('/resultmodel', methods=['POST'])
 def result_model():
-
+    auth_key = request.form['api_key']
     images = request.files['img']
+    
+    if auth_key == api_key:
+        # path file
+        path = os.path.join(app.config['UPLOAD_PATH'], images.filename)
 
-    # path file
-    path = os.path.join(app.config['UPLOAD_PATH'], images.filename)
+        # save file
+        if images.filename != '':
+            images.save(path)
 
-    # save file
-    if images.filename != '':
-        images.save(path)
+        img = tf.keras.preprocessing.image.load_img(
+            path, target_size=(224, 224))
+        x = tf.keras.preprocessing.image.img_to_array(img)
+        x = np.expand_dims(x, axis=0)
 
-    img = tf.keras.preprocessing.image.load_img(
-        path, target_size=(224, 224))
-    x = tf.keras.preprocessing.image.img_to_array(img)
-    x = np.expand_dims(x, axis=0)
+        img = np.vstack([x])
+        classes = model.predict(img, batch_size=10)
+        result = np.argmax(classes[0])
 
-    img = np.vstack([x])
-    classes = model.predict(img, batch_size=10)
-    result = np.argmax(classes[0])
+        # menghapus file
+        os.remove(os.path.join(
+            app.config['UPLOAD_PATH'], images.filename))
 
-    # menghapus file
-    os.remove(os.path.join(
-        app.config['UPLOAD_PATH'], images.filename))
+        # ['Tungro', 'Hispa', 'Healthy', 'LeafBlast','Blight , 'BrownSpot']
+        if result == 0:
+            disease = 'Tungro'
+        elif result == 1:
+            disease = 'Hispa'
+        elif result == 2:
+            disease = ''
+        elif result == 3:
+            disease = 'Leaf Blast'
+        elif result == 4:
+            disease = 'Blight'
+        else:
+            disease = 'Brown Spot'
 
-    # ['Tungro', 'Hispa', 'Healthy', 'LeafBlast','Blight , 'BrownSpot']
-    if result == 0:
-        disease = 'Tungro'
-    elif result == 1:
-        disease = 'Hispa'
-    elif result == 2:
-        disease = ''
-    elif result == 3:
-        disease = 'Leaf Blast'
-    elif result == 4:
-        disease = 'Blight'
+        # get pesticide recommend
+        rec = recommend_pestisida(disease)
+
+        return jsonify(penyakit=disease, recommendations=rec)
+
+
+        # return web
+        # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
     else:
-        disease = 'Brown Spot'
+        return "API Key incorrect"
 
-    # get pesticide recommend
-    rec = recommend_pestisida(disease)
-
-    return jsonify(penyakit=disease, recommendations=rec)
-
-
-    # return web
-    # return render_template('resultModel.html', training=str(classes), hasil=str(result), nama=disease,recommend=rec )
 if __name__ == '__main__':
-    app.run(ssl_context='adhoc', host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
