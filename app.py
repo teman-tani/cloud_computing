@@ -7,6 +7,8 @@ import os
 import logging
 import pickle
 import pandas as pd
+import tensorflow_hub as hub
+from keras.utils import CustomObjectScope
 
 app = Flask(__name__)
 
@@ -14,7 +16,8 @@ app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 # app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'uploads'
 
-model = load_model('model_ml/my_model.h5')
+with CustomObjectScope({'KerasLayer': hub.KerasLayer}):
+    model = load_model('model_ml/my_model.h5')
 
 api_key = "154c991c-1c07-492b-907c-6d3945759fd1"
 
