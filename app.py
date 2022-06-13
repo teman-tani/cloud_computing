@@ -12,7 +12,7 @@ from keras.utils import CustomObjectScope
 
 app = Flask(__name__)
 
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 3072 * 3072
 # app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 app.config['UPLOAD_PATH'] = 'uploads'
 
@@ -156,8 +156,8 @@ def result_model():
         result = np.argmax(classes)
 
         # menghapus file
-        #os.remove(os.path.join(
-        #    app.config['UPLOAD_PATH'], images.filename))
+        os.remove(os.path.join(
+            app.config['UPLOAD_PATH'], images.filename))
 
         # ['Tungro', 'Hispa', 'Healthy', 'LeafBlast','Blight , 'BrownSpot']
         if result == 0:
